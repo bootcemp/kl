@@ -1,0 +1,56 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+{% if category %}{{ category.name }}{% else %}Товары{% endif %}
+{% endblock %}
+{% block content %}
+
+<!--{% if request.user.is_authenticated %}-->
+
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="your-integrity-code" crossorigin="anonymous"></script>-->
+
+
+<!--<div class="dropdown text-end">-->
+<!--    <a href="#" class="btn btn-primary text-white me-4 d-block link-dark text-decoration-none dropdown-toggle"id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>-->
+<!--    <ul class="dropdown-menu" aria-labelledby="dropdownUser1">-->
+<!--        <li><a class="dropdown-item" href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>-->
+<!--        <li><a class="dropdown-item text-danger" href="{% url 'accounts:user_logout' %}">Sign out</a></li>-->
+<!--    </ul>-->
+<!--</div>-->
+<!--{% else %}-->
+<!--<div class="text-end">-->
+<!--    <a href="{% url 'accounts:user_login' %}" class="btn btn-outline-primary me-2">Login</a>-->
+<!--    <a href="{% url 'accounts:user_register' %}" class="btn btn-primary">Sign-up</a>-->
+<!--</div>-->
+<!--{% endif %}-->
+
+<div id="sidebar">
+    <h3>Категория</h3>
+    <ul>
+        <li {% if not category %}class="selected"{% endif >
+        <a> href="{% url 'shop:product_list' %}">все</a>
+        </li>
+        {% for c in categories %}
+        <li {% if category.slug == c.slug %}class="selected" {% endif %}>
+        <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+        </li>
+        {% endif %}
+
+    </ul>
+</div>
+<div id="main" class="product-list">
+    <h1>{% if category %}{{ category>name }}{% else %}Товары{% endif %}</h1>
+    {% for product in products %}
+    <div class="item">
+        <a href="{{ product.get_absolute_url }}">
+            <img style="width:250px; height:200px" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no.image.png' %}{% endif %}">
+        </a>
+        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+        <br>
+        ${{ product.price }}
+</div>
+    {% endfor %}
+</div>
+{% endblock %}
+
